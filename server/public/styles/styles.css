@@ -1,3 +1,15 @@
+.bio {
+  display: inline-block;
+}
+
 h1 {
   color: chartreuse;
+}
+
+h2 {
+  color: magenta;
+}
+
+p {
+  color: tan;
 }
