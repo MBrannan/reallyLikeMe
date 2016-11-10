@@ -24,10 +24,20 @@ app.get('/likes', function(req, res) {
   res.send(likes);
 });
 
+app.post('/likes', function(req, res) {
+  var name = req.body.name;
+  for (var i = 0; i < bios.length; i++) {
+    if(name == bios[i].name) {
+      bios[i].likes++;
+    }
+  }
+  res.sendStatus(201);
+});
+
 //Static Routes
 app.get("/*", function(req, res) {
   var file = req.params[0] || "/views/index.html";
-  console.log(req.params);
+  // console.log(req.params);
 
   res.sendFile(path.join(__dirname, "/public/", file))
 });

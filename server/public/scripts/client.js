@@ -5,6 +5,7 @@ $(document).ready(function() {
     type: 'GET',
     url: '/bios',
     success: function(data) {
+      console.log('get request');
       appendToDom(data);
     }
   });
@@ -17,6 +18,20 @@ $(document).ready(function() {
     }
   });
 
+  $("#bioContainer").on("click", "button", addLike);
+    function addLike() {
+      //increase like count
+      var name = $(this).parent().data();
+      $.ajax({
+          type: 'POST',
+          url: '/likes',
+          data: name,
+          success: function(response) {
+
+          }
+        })
+  }
+
 });
 
 function appendToDom(bios) {
@@ -25,7 +40,7 @@ function appendToDom(bios) {
       var $el = $("#bioContainer").children().last();
       $el.append("<h2>" + bios[i].name + "</h2>");
       $el.append("<p>" + bios[i].bio + "</p>");
-      $el.append("<button type='button'>Like " + bios[i].name + "'s profile?</button><span id='" + bios[i].name + "Likes'></span>");
+      $el.append("<button type='button'>Like " + bios[i].name + "'s profile?</button><span id='" + bios[i].name + "Likes'></span>").data('name', bios[i].name);
       $el.append("<img src='../assets/images/" + bios[i].image + "' alt='Photo of " + bios[i].name + "'/>");
     }
 }
