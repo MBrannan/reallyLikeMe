@@ -1,22 +1,9 @@
 $(document).ready(function() {
   console.log("Tindernauts!");
 
-  $.ajax({
-    type: 'GET',
-    url: '/bios',
-    success: function(data) {
-      console.log('get request');
-      appendToDom(data);
-    }
-  });
+  callData();
 
-  $.ajax({
-    type: 'GET',
-    url: '/likes',
-    success: function(data) {
-      updateLikes(data);
-    }
-  });
+  getLikes();
 
   $("#bioContainer").on("click", "button", addLike);
     function addLike() {
@@ -27,13 +14,14 @@ $(document).ready(function() {
           url: '/likes',
           data: name,
           success: function(response) {
-
+            getLikes();
           }
-        })
+      })
   }
 
 });
 
+//functions
 function appendToDom(bios) {
     for (var i = 0; i < bios.length; i++) {
       $("#bioContainer").append("<div class='bio'></div>");
@@ -48,6 +36,27 @@ function appendToDom(bios) {
 function updateLikes(likes) {
   var names = Object.keys(likes);
   for (var i = 0; i < names.length; i++) {
-    $('#' + names[i] + 'Likes').append(likes[names[i]]);
+    $('#' + names[i] + 'Likes').text(likes[names[i]]);
   }
+}
+
+function callData() {
+  $.ajax({
+    type: 'GET',
+    url: '/bios',
+    success: function(data) {
+      console.log('get request');
+      appendToDom(data);
+    }
+  });
+}
+
+function getLikes() {
+$.ajax({
+  type: 'GET',
+  url: '/likes',
+  success: function(data) {
+    updateLikes(data);
+    }
+  });
 }
